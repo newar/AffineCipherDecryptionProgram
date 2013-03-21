@@ -1,0 +1,84 @@
+package compSec;
+import java.util.Scanner;
+
+
+public class AffineDecrypt {
+
+  public static void main(String[] args) {
+		
+		Scanner input;// using scanner class to get inputs from user
+		input = new Scanner(System.in);
+		
+		//declare variables
+		int a, b;	//a for the mapping and b for shifting
+		int inverseA;	// inverse of a
+		String ciphertext;	// the cipher text will be stored in this variable
+		int numPlainText = 0;	// numerical representation of Plain text
+		char[] plaintext; // decoded text will be stored here as char
+
+
+		String plainText = ""; // decoded text in String form will be stored here
+		a = 0;	// initialize a with a value outside the accepted value
+		b = 26;	// initialize b with a value outside the accepted value
+		//gets the accepted value of a from the user
+		while ( (a % 2) == 0 || a == 13 || a > 25)
+		{
+			System.out.print("please enter the value of a: ");
+			a = input.nextInt();
+			a = Math.abs(a);
+		}
+		
+		//gets the accepted value of b from the user
+		for( inverseA = 0; (inverseA * a)%26 != (1 % 26) ; inverseA++)
+		{
+		}
+		
+		while ( Math.abs(b) > 25 )
+		{
+			System.out.print("Please enter the value of b: ");
+			b = Math.abs( input.nextInt() );
+		}
+		
+		// get the cipher text from the user
+		//System.out.println("Please enter the cipher text:");
+		//ciphertext = input.next();
+		
+		// or just put the ciphertext in the code
+		ciphertext = "VPWOMFUWOFMYMHUNWBBWGCRVVPSFVPUTHUJWMCOMFUOVSVWOVWGSRSFSREOWOQMHKOBMHVPWOUFGHETVWMFOEOVUYVMMZCVGSFEMCCOUEMCHKFMQRUNIUMBRWFUSHSRIUZHSVMBWFNVPUOUGHUVKUEVMMVPUFEMCQWRRPSJUVHCREGHSGKUNVPUOEOVUY";
+		ciphertext = ciphertext.toLowerCase();
+		
+
+		char[] ch  = ciphertext.toCharArray(); 
+		plaintext = new char[ch.length]; // length of decoded text = length of encoded text
+		
+		
+		for(int i = 0; i <ch.length; i++)
+		{
+			int numCipherText = (int) (ch[i]-97); // converts lowercase alphabets to numeric values starting with a = 97, b = 98 and so on...
+			//System.out.println(numCipherText);
+			
+			
+			/* calculate the numerical equivalent of plain text (x) for the corresponding numerical value of ciphertext (y)
+			 * using the formula
+			 * x = (a^-1*(y - b)) % 26; 
+			 */
+			if((numCipherText - b) <0 )
+			{
+				numPlainText = (inverseA * (numCipherText - b + 26 )) % 26;
+			}
+			else
+			{
+				numPlainText = (inverseA * (numCipherText - b) % 26);
+			}
+			plaintext[i] = (char) (numPlainText + 97);
+			//System.out.print(plaintext[i]); // prints out the decoded message
+			
+			plainText = plainText + plaintext[i];	// store each letter and make a String		
+		}
+		System.out.println(plainText); // print out the decoded message
+
+		
+		
+		input.close();//close the scanner class
+	}//end main class
+}//end
